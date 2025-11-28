@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mana Market - Product</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=Epunda+Slab:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="topnav">
+      <a href="index.html">Home</a>
+      <a href="store.html">Store</a>
+      <a href="signup.html">Sign Up</a>
+      <a href="login.html">Log In</a>
+      <a href="contactus.html">Contact</a>
+    </div>
+
+    <div class="container">
+      <h3 class="bitcount-grid-double">Confirm Purchase</h3>
+
+      <div id="productCard" style="text-align:center;">
+        <img id="productImg" src="" alt="Product" style="max-width:220px;border-radius:10px;display:none;margin:10px auto;box-shadow:0 4px 8px rgba(0,0,0,0.12);">
+        <p id="productName" class="epunda-slab-font" style="font-size:20px;font-weight:800;"></p>
+        <p id="productPrice" style="font-size:18px;color:#8a5f84;font-weight:800;"></p>
+
+        <div style="margin-top:18px;display:flex;gap:12px;justify-content:center;">
+          <button id="confirmBtn" class="buy-btn">Confirm Purchase</button>
+          <a href="store.html" class="buy-btn" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Cancel</a>
+        </div>
+
+        <p id="confirmMsg" style="display:none;margin-top:14px;padding:12px;border-radius:8px;background:#ecfdf5;color:#065f46;font-weight:700;">Purchase confirmed — thank you!</p>
+      </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+  </body>
+</html>
