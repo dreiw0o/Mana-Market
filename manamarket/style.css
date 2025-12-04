@@ -36,7 +36,6 @@ h3 {
   border-bottom: 2px solid #8a5f84;
 }
 
-/* --- Font Definitions --- */
 
 .bitcount-grid-double{
   font-family: "Bitcount Grid Double", system-ui;
@@ -56,8 +55,6 @@ h3 {
   font-weight: 300;
   font-style: normal;
 }
-
-/* --- Navigation Bar --- */
 
 .topnav {
   background-color: #cdb4db !important; 
@@ -122,14 +119,23 @@ h3 {
   white-space: nowrap;
 }
 
-/* --- Banner --- */
 
 .banner-wrap {
   width: 100%;
-  max-width: 860px; /* Slightly wider than container */
+  max-width: 860px; 
   margin: 0px auto 40px; 
   padding: 0;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* RESTORED: Stronger Shadow for Banners */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); 
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.game-banner-wrap {
+  width: 100%;
+  max-width: 400px; 
+  margin: 0px auto 40px; 
+  padding: 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); 
   border-radius: 16px;
   overflow: hidden;
 }
@@ -140,7 +146,6 @@ h3 {
   display: block;
 }
 
-/* --- Product List (Store Page) --- */
 
 .product-list {
   display: flex;
@@ -201,11 +206,10 @@ h3 {
 }
 
 .buy-btn:hover {
-  background-color: #588157; /* RESTORED: Forest Green */
+  background-color: #588157;
   transform: translateY(-1px);
 }
 
-/* --- Cart Page --- */
 
 .cart-table {
     width: 100%;
@@ -271,9 +275,6 @@ h3 {
     font-style: italic;
 }
 
-/* --- Login/Signup Forms --- */
-
-/* New rule to constrain the width of the form itself */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -283,14 +284,12 @@ h3 {
   border: 1px solid #f0f0f0;
   border-radius: 12px;
   background: #f7f7f7;
-  max-width: 450px; /* Constrain the form width */
-  width: 100%; /* Ensure it's responsive */
+  max-width: 450px; 
+  width: 100%; 
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Apply max-width to the container only when necessary for login/signup pages */
-/* Since the 'container' is currently 800px, we make it smaller for forms */
 #login.container, #signup.container {
     max-width: 500px; 
 }
@@ -390,7 +389,6 @@ h3 {
     text-decoration: underline;
 }
 
-/* --- Contact Form --- */
 
 #contactForm label {
     display: block;
@@ -451,7 +449,6 @@ h3 {
 }
 
 
-/* --- Utilities --- */
 #scrollTopBtn {
     display: none; 
     position: fixed; 
@@ -505,4 +502,44 @@ h3 {
 
 #musicToggleBtn.muted:hover {
     background-color: #cdb4db;
+}
+
+#toastContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    pointer-events: none; 
+}
+
+.toast {
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: #333333; 
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out; 
+    transform: translateX(0);
+    max-width: 300px;
+    pointer-events: auto; 
+}
+
+.toast.success {
+    background-color: #ffafcc; 
+    border: 2px solid #a87aa0; 
+}
+
+.toast.error {
+    background-color: #ff6b6b; 
+    color: white; 
+    border: 2px solid #cc4a4a;
+}
+
+.toast.fade-out {
+    opacity: 0;
+    transform: translateX(100%);
 }

@@ -1,47 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    // --- CART SYSTEM LOGIC ---
-    
-    // 1. Initialize Cart
     let cart = JSON.parse(localStorage.getItem('manaCart')) || [];
     updateCartCount();
 
-    // 2. Add to Cart Function
     window.addToCart = function(name, price, image) {
-        // Find if item already exists
-        const existingItem = cart.find(item => item.name === name);
-        if (existingItem) {
-            alert(`${name} is already in your cart.`);
-            return;
-        }
+    const existingItem = cart.find(item => item.name === name);
+    if (existingItem) {
+        showToast(`${name} is already in your cart.`, 'error');
+        return;
+    }
 
-        cart.push({ name, price, image });
-        localStorage.setItem('manaCart', JSON.stringify(cart));
-        updateCartCount();
-        alert(`${name} added to cart!`);
-    };
+    cart.push({ name, price, image });
+    localStorage.setItem('manaCart', JSON.stringify(cart));
+    updateCartCount();
+    showToast(`${name} added to cart!`, 'success');
+};
 
-    // 3. Remove from Cart Function
     window.removeFromCart = function(index) {
         cart.splice(index, 1);
         localStorage.setItem('manaCart', JSON.stringify(cart));
         updateCartCount();
-        renderCart(); // Re-render the cart page
+        renderCart();
     };
 
-    // 4. Update Cart Count in Nav Bar
     function updateCartCount() {
         const countEl = document.getElementById('cartCount');
         if (countEl) countEl.textContent = cart.length;
     }
 
-    // 5. Render Cart Page
     function renderCart() {
         const cartContent = document.getElementById('cartContent');
         const cartFooter = document.getElementById('cartFooter');
         const cartTotalEl = document.getElementById('cartTotal');
         
-        if (!cartContent) return; // Not on cart page
+        if (!cartContent) return; 
 
         if (cart.length === 0) {
             cartContent.innerHTML = '<p class="empty-cart-msg epunda-slab-font">Your cart is empty.</p>';
@@ -71,38 +62,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Run render if on cart page
     renderCart();
 
-    // 6. Checkout Logic - UPDATED TO REDIRECT TO purchase_success.html
     const checkoutBtn = document.getElementById('checkoutBtn');
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', () => {
             if (cart.length === 0) {
-                 // Using an alert for quick feedback instead of a custom modal UI
-                 alert("Cannot check out, your cart is empty!"); 
+                 showToast("Cannot check out, your cart is empty!", 'error');
                  return;
             }
             
-            // Calculate total for display on the success page
             let total = 0;
             cart.forEach(item => {
                 total += parseFloat(item.price);
             });
             const cartTotal = total.toFixed(2);
             
-            // Clear cart
             cart = []; 
             localStorage.setItem('manaCart', JSON.stringify(cart));
             updateCartCount();
             renderCart();
 
-            // Redirect to the new success page, passing the total spent
-            window.location.href = `purchase_success.html?total=${cartTotal}`;
+            window.location.href = `purchase.html?total=${cartTotal}`;
         });
     }
 
-    // --- PRODUCT PAGE LOGIC (product.html) ---
     const productCard = document.getElementById('productCard');
     if (productCard) {
         function qs(key) {
@@ -119,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const descEl = document.getElementById('productDesc');
         const addBtn = document.getElementById('addToCartBtn');
 
-        // Game Descriptions Data
         const descriptions = {
             'Hades': 'Defy the god of the dead as you hack and slash out of the Underworld in this rogue-like dungeon crawler from the creators of Bastion, Transistor, and Pyre.',
             'Hades 2': 'Battle beyond the Underworld using dark sorcery to take on the Titan of Time in this bewitching sequel to the award-winning rogue-like dungeon crawler.',
@@ -144,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
             imgEl.style.display = 'block';
         }
 
-        // Handle Add to Cart Click on Product Page
         if (addBtn) {
             addBtn.addEventListener('click', () => {
                 addToCart(product, price, imgFile);
@@ -152,8 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
-    // --- SESSION & NAV BAR LOGIC ---
     const LOGGED_IN_EMAIL_KEY = 'loggedInUserEmail';
     const navBar = document.querySelector('.topnav');
     const signupLink = navBar ? navBar.querySelector('a[href="signup.html"]') : null;
@@ -188,8 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateNavBarState();
 
-    // --- UTILITIES (Scroll, Music, Contact) ---
-    // Scroll Link Smoothing
     document.querySelectorAll('.topnav a').forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href') || '';
@@ -206,10 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Scroll Top Button
     const scrollBtn = document.getElementById('scrollTopBtn');
     if (scrollBtn) {
-        // Set the text content explicitly
         scrollBtn.textContent = 'Scroll To Top';
         
         const toggleScrollBtn = () => {
@@ -220,17 +196,14 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
-    // Music Toggle (Updated for continuity)
     const bgMusic = document.getElementById('bgMusic');
     const musicToggleBtn = document.getElementById('musicToggleBtn');
 
     if (bgMusic && musicToggleBtn) {
         
-        // Load state from previous page
         const savedTime = localStorage.getItem('musicTime');
         const savedMuted = localStorage.getItem('musicMuted');
 
-        // Restore time if metadata is loaded
         if (savedTime !== null && !isNaN(parseFloat(savedTime))) {
              bgMusic.addEventListener('loadedmetadata', () => {
                  bgMusic.currentTime = parseFloat(savedTime);
@@ -240,16 +213,13 @@ document.addEventListener('DOMContentLoaded', () => {
         bgMusic.volume = 0.3;
         bgMusic.muted = savedMuted === 'true';
 
-        // Save state before page unloads
         const saveMusicState = () => {
             localStorage.setItem('musicTime', bgMusic.currentTime);
             localStorage.setItem('musicMuted', bgMusic.muted);
         };
-        // Use pagehide for better cross-browser compatibility when navigating
         window.addEventListener('pagehide', saveMusicState);
 
 
-        // Update button text
         const updateBtn = () => {
             musicToggleBtn.textContent = bgMusic.muted ? 'Music OFF' : 'Music ON';
             if(bgMusic.muted) musicToggleBtn.classList.add('muted');
@@ -257,16 +227,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         updateBtn();
 
-        // Autoplay attempt (requires user interaction in most browsers)
         const tryPlay = () => {
-             // Only try to play if it's currently paused
              if (bgMusic.paused) {
                  bgMusic.play().catch(() => {});
              }
         };
         
-        tryPlay(); // Initial attempt
-        // Play on first user interaction (reliable way to start media)
+        tryPlay();
         document.addEventListener('click', tryPlay, { once: true });
 
 
@@ -274,23 +241,73 @@ document.addEventListener('DOMContentLoaded', () => {
             bgMusic.muted = !bgMusic.muted;
             localStorage.setItem('musicMuted', bgMusic.muted);
             updateBtn();
-            // If unmuted, try to play if paused
             if (!bgMusic.muted && bgMusic.paused) {
                 tryPlay();
             }
         });
     }
     
-    // Contact Form
     const contactForm = document.getElementById('contactForm');
     const thankYouMsg = document.getElementById('thankYouMsg');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+    
+    if (contactForm && typeof showToast === 'function') {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault(); 
-            // Using an alert for quick feedback instead of a custom modal UI
-            alert("Thanks for contacting me! I’ll get back to you in five minutes.");
-            contactForm.style.display = 'none';
-            if (thankYouMsg) thankYouMsg.style.display = 'block';
+            
+            const form = e.target;
+            const formData = new FormData(form);
+
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = 'Sending...';
+            submitButton.disabled = true;
+
+            try {
+                const response = await fetch('submit_contact.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showToast(result.message, 'success');
+                    form.style.display = 'none';
+                    if (thankYouMsg) {
+                        thankYouMsg.textContent = result.message; 
+                        thankYouMsg.style.display = 'block';
+                    }
+                } else {
+                    showToast(`Submission failed: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Submission failed:', error);
+                showToast('An unexpected error occurred. Please check your XAMPP server.', 'error');
+            } finally {
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            }
         });
+    }
+
+    function showToast(message, type = 'success') {
+        const toastContainer = document.getElementById('toastContainer');
+        if (!toastContainer) {
+            console.warn('Toast container not found, falling back to console log: ' + message);
+            return;
+        }
+
+        const toast = document.createElement('div');
+        toast.className = `toast epunda-slab-font ${type}`; 
+        toast.textContent = message;
+
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('fade-out'); 
+            toast.addEventListener('transitionend', () => {
+                toast.remove();
+            });
+        }, 3000); 
     }
 });

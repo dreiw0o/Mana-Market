@@ -9,7 +9,6 @@
   </head>
 
   <body>
-
     <div class="topnav">
       <div class="topnav-left">
         <a href="index.html">Home</a>
@@ -40,20 +39,19 @@
         </div>
 
         <div style="margin-top:28px; display:flex; gap:12px; justify-content:center;">
-          <button id="addToCartBtn" class="buy-btn" style="width:200px;">Add to Cart</button>
-          <a href="store.html" class="buy-btn" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; background:#eee !important; color:#555 !important;">Back</a>
+          <button id="addToCartBtn" class="buy-btn" style="width:200px">Add to Cart</button>
+          <a class="buy-btn secondary-btn" href="store.html" style="width:200px; text-align:center;">Back to Store</a>
         </div>
       </div>
-
     </div>
 
-    <!-- Removed hardcoded content so JS can set "Scroll To Top" -->
-    <button id="scrollTopBtn"></button>
+    <div id="toastContainer"></div> 
+
+    <button id="scrollTopBtn">Scroll To Top</button>
 
     <audio id="bgMusic" src="bliss.mp3" loop></audio>
     <button id="musicToggleBtn">Music ON</button>
 
     <script src="script.js"></script>
-
   </body>
 </html>
